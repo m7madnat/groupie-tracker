@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artists</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+
+<body>
+    <div class="container">
+        <form action="/search" method="GET">
+            <input type="text" id="searchInput" name="q" placeholder="Enter artist name, album, member"
+                list="artistList">
+            <datalist id="artistList">
+                {{range .Artists}}
+                <option value="{{.Name}}">Artist</option>
+                <option value="{{.CreationDate}}">{{.Name}} -> Creation Date </option>
+                <option value="{{.FirstAlbum}}">{{.Name}} -> First Album </option>
+                {{range .Members}}
+                <option value="{{.}}">Members</option>
+                {{end}}
+                {{end}}
+                {{range .Locations.Index}}
+                {{range .Locations}}
+                <option value="{{.}}">Locations</option>
+                {{end}}
+                {{end}}
+
+            </datalist>
+
+            <button type="submit">Search</button>
+        </form>
+
+        <div class="card__container">
+            {{range .Artists}}
+            <article class="card__article">
+                <img src="{{.Image}}" alt="Artist Image" class="card__img">
+                <div class="card__data">
+                    <a href="/details?id={{.ID}}" class="card__title">{{.Name}}</a>
+                    <p class="card__description">Creation Date: {{.CreationDate}}</p>
+                </div>
+            </article>
+            {{end}}
+        </div>
+    </div>
+</body>
+
+</html>
